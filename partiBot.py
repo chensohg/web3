@@ -1,7 +1,7 @@
 import pyautogui as pg
 import re,time,datetime
-import random
-import winsound
+import schedule
+
 
 feedcodeIdx=0
 succeedtimes=0
@@ -97,18 +97,26 @@ def autoclick():
         pg.click(x=507,y=212)#back
 
 
+def job():
+    time.sleep(5)
+    #pg.hotkey('win', 'd')
+    #time.sleep(5)
+    while succeedtimes<100 and failedtimes<10:
+        autoclick()
+        time.sleep(10)
+        print(time.strftime("%a %b %d %H:%M:%S %Y",time.localtime()))
+        print("succees:%d;failed:%d"%(succeedtimes,failedtimes))
+
+
 if __name__ == '__main__':
     user_input = input("查看坐标请输入1:")
     if user_input=='1':
         get_mouse_positon()
-    else:
-        time.sleep(5)
-        pg.hotkey('win', 'd')
-        time.sleep(5)
-        while succeedtimes<100 and failedtimes<10:
-            autoclick()
+    elif user_input=='2':
+        job()
+    else:        
+        schedule.every().day.at("14:09").do(job)
+        
+        while True:
+            schedule.run_pending()
             time.sleep(10)
-            print(time.strftime("%a %b %d %H:%M:%S %Y",time.localtime()))
-            print("succees:%d;failed:%d"%(succeedtimes,failedtimes))
-
-
