@@ -108,6 +108,13 @@ def job():
         print("succees:%d;failed:%d"%(succeedtimes,failedtimes))
 
 
+def start():
+    #call chrome
+    #enter url
+    #click walllet
+    pass
+
+
 if __name__ == '__main__':
     user_input = input("查看坐标请输入1:")
     if user_input=='1':
