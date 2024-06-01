@@ -103,6 +103,8 @@ if __name__ == '__main__':
         get_mouse_positon()
     else:
         time.sleep(5)
+        pg.hotkey('win', 'd')
+        time.sleep(5)
         while succeedtimes<100 and failedtimes<10:
             autoclick()
             time.sleep(10)
