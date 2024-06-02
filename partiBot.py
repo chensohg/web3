@@ -1,7 +1,8 @@
 import pyautogui as pg
 import re,time,datetime
 import schedule
-
+import subprocess
+import psutil
 
 feedcodeIdx=0
 succeedtimes=0
@@ -99,8 +100,6 @@ def autoclick():
 
 def job():
     time.sleep(5)
-    #pg.hotkey('win', 'd')
-    #time.sleep(5)
     while succeedtimes<100 and failedtimes<10:
         autoclick()
         time.sleep(10)
@@ -108,11 +107,34 @@ def job():
         print("succees:%d;failed:%d"%(succeedtimes,failedtimes))
 
 
+def close_chrome_process():
+    for process in psutil.process_iter(['pid', 'name']):
+        if process.info['name'] == 'chrome.exe':
+            process.kill()
+
 def start():
+    #close_chrome_process()
+
+    pg.hotkey('win', 'd')
+    time.sleep(5)
     #call chrome
+    # 假设你的exe文件名为example.exe，位于当前目录下
+    exe_path = "C:/Users/Administrator/AppData/Local/Google/Chrome/Application/chrome.exe"
+    
+    # 使用subprocess.run来调用exe文件
+    result = subprocess.run([exe_path], capture_output=True, text=True)
+    time.sleep(10)
     #enter url
+    pg.tripleClick(443,62)
+    url='https://pioneer.particle.network/zh-CN/point'
+    pg.typewrite(url,0.05)
+    pg.press('enter')
+    time.sleep(20)
     #click walllet
-    pass
+    pg.click(1857,974)
+    time.sleep(10)
+    pg.click(1518,318)
+    time.sleep(5)
 
 
 if __name__ == '__main__':
@@ -120,7 +142,8 @@ if __name__ == '__main__':
     if user_input=='1':
         get_mouse_positon()
     elif user_input=='2':
-        job()
+        #job()
+        start()
     else:        
         schedule.every().day.at("14:09").do(job)
         
